@@ -1,24 +1,24 @@
 import { Button } from '@/components/button';
-import { Link, useForm } from '@inertiajs/react';
-import { DropdownMenu, DropdownMenuContent, DropdownMenuItem, DropdownMenuLabel, DropdownMenuSeparator, DropdownMenuTrigger } from '@/components/dropdown-menu';
 import { DropdownDialog } from '@/components/dropdown-dialog';
-import { toast } from '@/lib/use-toast';
-import { getTimeStamp } from '@/lib/get-date';
+import { DropdownMenu, DropdownMenuContent, DropdownMenuItem, DropdownMenuLabel, DropdownMenuSeparator, DropdownMenuTrigger } from '@/components/dropdown-menu';
 import { Icon } from '@/components/icon';
+import { Link, useForm } from '@inertiajs/react';
 
 export function UserListOptions({ user, details = true }) {
+    console.log(user);
     const { delete: destroy } = useForm();
 
     function destroyUser(user) {
-        destroy(route('users.destroy', user), {
-            preserveScroll: true,
-            onSuccess: () => {
-                toast({
-                    title: 'User has been deleted succesfully',
-                    description: getTimeStamp(),
-                });
-            },
-        });
+        // destroy(route('users.destroy', user), {
+        //     preserveScroll: true,
+        //     onSuccess: () => {
+        //         toast({
+        //             title: 'User has been deleted succesfully',
+        //             description: getTimeStamp(),
+        //         });
+        //     },
+        // });
+        console.log(user);
     }
 
     return (
@@ -34,7 +34,7 @@ export function UserListOptions({ user, details = true }) {
                     <>
                         <DropdownMenuSeparator />
                         <DropdownMenuItem asChild>
-                            <Link href={route('users.show', user)}>
+                            <Link href={'#'}>
                                 <Icon icon={'IconId'} />
                                 Details
                             </Link>
@@ -42,10 +42,6 @@ export function UserListOptions({ user, details = true }) {
                     </>
                 ) : null}
                 <DropdownMenuSeparator />
-                <DropdownDialog title='Are you sure?' description='This action will limit user activity.' submit_text='Ban' action={() => console.log(user.username)} buttonStyle='destructive'>
-                    <Icon icon={'IconBan'} />
-                    Ban
-                </DropdownDialog>
                 <DropdownDialog description='This action cannot be undone. This will permanently delete user account and remove data from our servers.' action={() => destroyUser(user)} submit_text='Delete' buttonStyle='destructive'>
                     <Icon icon={'IconTrash'} />
                     Delete Permanently

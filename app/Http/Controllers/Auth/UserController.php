@@ -22,24 +22,23 @@ class UserController extends Controller
 
         $users = UserResource::collection(
             User::query()
-                ->withCount('posts')
                 ->when(
                     value: $request->search,
-                    callback: fn ($query, $value) => $query->where('name', 'like', '%' . $value . '%')
+                    callback: fn($query, $value) => $query->where('name', 'like', '%' . $value . '%')
                         ->orWhere('email', 'like', '%' . $value . '%')
                         ->orWhere('username', 'like', '%' . $value . '%')
                 )
                 ->when(
                     value: $request->field && $request->direction,
-                    callback: fn ($query) => $query->orderBy($request->field, $request->direction),
-                    default: fn ($query) => $query->latest()
+                    callback: fn($query) => $query->orderBy($request->field, $request->direction),
+                    default: fn($query) => $query->latest()
                 )
                 ->fastPaginate($limit)
                 ->withQueryString()
         );
 
         return inertia('users/index', [
-            'users' => fn () => $users,
+            'users' => fn() => $users,
             'state' => $request->only('limit', 'page', 'search', 'field', 'direction'),
         ]);
     }

@@ -1,16 +1,15 @@
 import AuthLayout from '@/Layouts/auth-layout';
-import { Card, CardContent, CardDescription, CardFooter, CardHeader, CardTitle } from '@/components/card';
-import { Table, TableBody, TableCell, TableHead, TableHeader, TableRow } from '@/components/table';
-import Container from '@/components/container';
-import { Link } from '@inertiajs/react';
 import { Avatar, AvatarFallback, AvatarImage } from '@/components/avatar';
-import { UserListOptions } from './partials/user-list-options';
-import { SimplePagination } from '@/components/simple-pagination';
-import { useState } from 'react';
-import { useFilter } from '@/hooks/useFilter';
-import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from '@/components/select';
+import { Card, CardContent, CardDescription, CardFooter, CardHeader, CardTitle } from '@/components/card';
+import Container from '@/components/container';
 import { Input } from '@/components/input';
+import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from '@/components/select';
+import { SimplePagination } from '@/components/simple-pagination';
 import { SortIndicator } from '@/components/sort-indicator';
+import { Table, TableBody, TableCell, TableHead, TableHeader, TableRow } from '@/components/table';
+import { useFilter } from '@/hooks/useFilter';
+import { useState } from 'react';
+import { UserListOptions } from './partials/user-list-options';
 
 export default function Index(props) {
     const { data: users, meta, links } = props.users;
@@ -78,9 +77,6 @@ export default function Index(props) {
                                 <TableHead onClick={() => handleSort('updated_at')}>
                                     <SortIndicator label='updated' column='updated_at' field={params?.field} direction={params?.direction} />
                                 </TableHead>
-                                <TableHead onClick={() => handleSort('posts_count')}>
-                                    <SortIndicator label='posts' column='posts_count' field={params?.field} direction={params?.direction} />
-                                </TableHead>
                                 <TableHead />
                             </TableRow>
                         </TableHeader>
@@ -100,7 +96,7 @@ export default function Index(props) {
                                                     </div>
                                                     <div>
                                                         <div>
-                                                            <Link href={route('users.show', user)}>{user.name}</Link>
+                                                            <p>{user.name}</p>
                                                         </div>
                                                         <div className='text-muted-foreground'>{user.email}</div>
                                                     </div>
@@ -110,7 +106,6 @@ export default function Index(props) {
                                             <TableCell className={user.email_verified_at == 'Email not verified' ? 'font-medium text-destructive' : ''}>{user.email_verified_at}</TableCell>
                                             <TableCell>{user.created_at}</TableCell>
                                             <TableCell>{user.updated_at}</TableCell>
-                                            <TableCell>{user.posts_count}</TableCell>
                                             <TableCell>
                                                 <div className='flex justify-end'>
                                                     <UserListOptions user={user} />

@@ -1,7 +1,6 @@
 import { Icon } from '@/components/icon';
 import PrimaryLink from '@/components/primary-link';
 import { Separator } from '@/components/separator';
-import React from 'react';
 
 export default function Menu({ setOpen }) {
     const closeSidebar = () => {
@@ -19,6 +18,18 @@ export default function Menu({ setOpen }) {
                 <PrimaryLink onSuccess={closeSidebar} href={route('users.index')} active={route().current('users.*')} className='flex items-center gap-x-3.5 rounded-lg p-2 text-[0.920rem]/[1.35rem]'>
                     <Icon icon={'IconUsersGroup'} />
                     Users
+                </PrimaryLink>
+            </li>
+            <li>
+                <PrimaryLink onSuccess={closeSidebar} href={route('users.index')} active={route().current('products.*')} className='flex items-center gap-x-3.5 rounded-lg p-2 text-[0.920rem]/[1.35rem]'>
+                    <Icon icon={'IconPackages'} />
+                    Products
+                </PrimaryLink>
+            </li>
+            <li>
+                <PrimaryLink onSuccess={closeSidebar} href={route('users.index')} active={route().current('orders.*')} className='flex items-center gap-x-3.5 rounded-lg p-2 text-[0.920rem]/[1.35rem]'>
+                    <Icon icon={'IconShoppingBag'} />
+                    Orders
                 </PrimaryLink>
             </li>
             <Separator className='!my-4' />

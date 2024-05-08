@@ -2,6 +2,15 @@
 @tailwind components;
 @tailwind utilities;
 
+* {
+    @apply scroll-smooth;
+}
+
+.ProseMirror p:empty::before {
+    content: '';
+    display: inline-block;
+}
+
 @layer base {
     :root {
         --background: 0 0% 100%;

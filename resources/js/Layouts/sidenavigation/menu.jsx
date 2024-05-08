@@ -21,7 +21,7 @@ export default function Menu({ setOpen }) {
                 </PrimaryLink>
             </li>
             <li>
-                <PrimaryLink onSuccess={closeSidebar} href={route('users.index')} active={route().current('products.*')} className='flex items-center gap-x-3.5 rounded-lg p-2 text-[0.920rem]/[1.35rem]'>
+                <PrimaryLink onSuccess={closeSidebar} href={route('products.index')} active={route().current('products.*')} className='flex items-center gap-x-3.5 rounded-lg p-2 text-[0.920rem]/[1.35rem]'>
                     <Icon icon={'IconPackages'} />
                     Products
                 </PrimaryLink>

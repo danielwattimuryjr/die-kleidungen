@@ -5,6 +5,7 @@ use App\Http\Controllers\Auth\SecurityController;
 use App\Http\Controllers\Auth\UserController;
 use App\Http\Controllers\DashboardController;
 use App\Http\Controllers\HomeController;
+use App\Http\Controllers\ProductController;
 use App\Http\Controllers\ProfileController;
 use Illuminate\Support\Facades\Route;
 
@@ -32,6 +33,14 @@ Route::middleware('auth')->group(function () {
         Route::get('users', 'index')->name('users.index');
         Route::get('users/{user}', 'show')->name('users.show');
         Route::delete('users/{user}', 'destroy')->name('users.destroy');
+    });
+
+    Route::middleware(['role:admin'])->group(function () {
+        Route::resource('products', ProductController::class);
+        Route::patch('products/{product}/update_status/{new_status}', [
+            ProductController::class,
+            'update_status'
+        ])->name('products.update-status');
     });
 });
 

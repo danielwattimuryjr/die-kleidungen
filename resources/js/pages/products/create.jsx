@@ -34,6 +34,7 @@ export default function Create(props) {
             },
             onError: () => {
                 toast({
+                    variant: 'destructive',
                     title: 'Uh oh... . Product creation failed 😥',
                     description: getTimeStamp(),
                 });

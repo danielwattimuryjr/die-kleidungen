@@ -12,10 +12,15 @@ class AuthenticatedUserResource extends JsonResource
         return [
             'id' => $this->id,
             'username' => $this->username,
-            'name' => $this->name,
-            'acronym' => acronym($this->name),
+            'name' => $this->nama_lengkap,
+            'acronym' => acronym($this->nama_lengkap),
             'email' => $this->email,
             'avatar' => $this->avatar(),
+            'isAdmin' => auth()->user()->hasRole('admin'),
+            'tanggal_lahir' => $this->tanggal_lahir,
+            'no_telp' => $this->no_telp,
+            'jenis_kelamin' => $this->jenis_kelamin,
+            'alamat' => $this->alamat,
         ];
     }
 }

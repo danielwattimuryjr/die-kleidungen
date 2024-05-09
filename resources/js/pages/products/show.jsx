@@ -7,7 +7,6 @@ import { Link } from '@inertiajs/react';
 
 export default function Show(props) {
     const { product } = props;
-    console.log(product);
 
     return (
         <Container className={'lg:mx-auto lg:max-w-5xl'}>

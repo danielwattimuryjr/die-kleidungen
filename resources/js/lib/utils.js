@@ -1,4 +1,5 @@
 import { clsx } from 'clsx';
+import dayjs from 'dayjs';
 import { twMerge } from 'tailwind-merge';
 
 export function cn(...inputs) {
@@ -11,4 +12,8 @@ export function formatCurrency(number) {
         currency: 'IDR',
         minimumFractionDigits: 0, // Opsional: Mengatur jumlah digit desimal minimum
     }).format(number);
+}
+
+export function formatDate(value) {
+    return dayjs(value).format('DD MMMM YYYY');
 }

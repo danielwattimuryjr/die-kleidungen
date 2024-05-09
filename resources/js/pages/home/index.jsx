@@ -1,17 +1,21 @@
 import AppLayout from '@/Layouts/app-layout';
+import ProductCard from '@/components/product-card';
 
 export default function Index() {
     return (
-        <Template>
-            {collections.map((item, index) => (
-                <CardLink key={index} href={item.url}>
-                    <Content>
-                        <Title>{item.title}</Title>
-                        <Description>{item.description}</Description>
-                    </Content>
-                </CardLink>
-            ))}
-        </Template>
+        <div class='mx-auto max-w-screen-xl px-4 pb-10 pt-10 sm:px-6 lg:px-8 lg:pb-14 lg:pt-28'>
+            <header class='text-center'>
+                <h2 class='text-xl font-bold text-primary sm:text-3xl'>Product Collection</h2>
+
+                <p class='mx-auto mt-4 max-w-md text-muted-foreground'>Lorem ipsum, dolor sit amet consectetur adipisicing elit. Itaque praesentium cumque iure dicta incidunt est ipsam, officia dolor fugit natus?</p>
+            </header>
+
+            <ul class='mt-8 grid gap-4 sm:grid-cols-2 lg:grid-cols-4'>
+                {Array.from({ length: 50 }, (_, index) => (
+                    <ProductCard />
+                ))}
+            </ul>
+        </div>
     );
 }
 

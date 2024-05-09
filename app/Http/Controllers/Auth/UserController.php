@@ -2,12 +2,17 @@
 
 namespace App\Http\Controllers\Auth;
 
+use App\Enum\Gender;
 use App\Http\Controllers\Controller;
+use App\Http\Requests\StoreUserRequest;
+use App\Http\Requests\UpdateUserRequest;
 use App\Http\Resources\SingleUserResource;
 use App\Http\Resources\UserResource;
 use App\Models\User;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\DB;
 use Illuminate\Validation\Rule;
+use Log;
 
 class UserController extends Controller
 {
@@ -22,6 +27,8 @@ class UserController extends Controller
 
         $users = UserResource::collection(
             User::query()
+                ->whereHasRole('customer')
+                ->where('id', '!=', auth()->id())
                 ->when(
                     value: $request->search,
                     callback: fn($query, $value) => $query->where('name', 'like', '%' . $value . '%')
@@ -45,12 +52,36 @@ class UserController extends Controller
 
     public function create()
     {
-        //
+        $genders = array_map(
+            fn($category) => ['value' => $category->value, 'label' => $category->labels()],
+            Gender::cases()
+        );
+
+        return inertia('users/create', compact('genders'));
     }
 
-    public function store(Request $request)
+    public function store(StoreUserRequest $request)
     {
-        //
+        DB::beginTransaction();
+        try {
+            $user = User::create($request->validated())->addRole('customer');
+
+            DB::commit();
+
+            Log::info("New User Added #$user->id");
+
+            return to_route('users.index');
+        } catch (\Throwable $th) {
+            Log::error('Exception caught: ' . $th->getMessage(), [
+                'file' => $th->getFile(),
+                'line' => $th->getLine(),
+                'trace' => $th->getTraceAsString(),
+            ]);
+
+            DB::rollBack();
+
+            return to_route('users.index');
+        }
     }
 
     public function show(User $user)
@@ -63,18 +94,62 @@ class UserController extends Controller
 
     public function edit(User $user)
     {
-        //
+        $genders = array_map(
+            fn($category) => ['value' => $category->value, 'label' => $category->labels()],
+            Gender::cases()
+        );
+
+        return inertia('users/edit', [
+            'user' => new SingleUserResource($user),
+            'genders' => $genders
+        ]);
     }
 
-    public function update(Request $request, User $user)
+    public function update(UpdateUserRequest $request, User $user)
     {
-        //
+        DB::beginTransaction();
+        try {
+            $user->update($request->validated());
+
+            DB::commit();
+
+            Log::info("Product #$user->id has been edited");
+
+            return to_route('users.index');
+        } catch (\Throwable $th) {
+            Log::error('Exception caught: ' . $th->getMessage(), [
+                'file' => $th->getFile(),
+                'line' => $th->getLine(),
+                'trace' => $th->getTraceAsString(),
+            ]);
+
+            DB::rollBack();
+
+            return to_route('users.index');
+        }
     }
 
     public function destroy(User $user)
     {
-        $user->delete();
+        DB::beginTransaction();
+        try {
+            $user->delete();
 
-        return to_route('users.index');
+            DB::commit();
+
+            Log::info("User #$user->id has been deleted");
+
+            return to_route('users.index');
+        } catch (\Throwable $th) {
+            Log::error('Exception caught: ' . $th->getMessage(), [
+                'file' => $th->getFile(),
+                'line' => $th->getLine(),
+                'trace' => $th->getTraceAsString(),
+            ]);
+
+            DB::rollBack();
+
+            return to_route('users.index');
+        }
     }
 }

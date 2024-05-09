@@ -20,6 +20,7 @@ export function ProductListOptions({ product, details = true }) {
             },
             onError: () => {
                 toast({
+                    variant: 'destructive',
                     title: 'Uh oh... . Product deletion failed. 😥',
                     description: getTimeStamp(),
                 });
@@ -43,6 +44,7 @@ export function ProductListOptions({ product, details = true }) {
                 },
                 onError: () => {
                     toast({
+                        variant: 'destructive',
                         title: 'Uh oh... . Product status update failed. 😥',
                         description: getTimeStamp(),
                     });

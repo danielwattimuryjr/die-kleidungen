@@ -1,9 +1,9 @@
 import { DropdownMenuItem, DropdownMenuLabel, DropdownMenuSeparator } from '@/components/dropdown-menu';
 import { Icon } from '@/components/icon';
 import { Link } from '@inertiajs/react';
-import React from 'react';
 
 export default function MenuItem({ auth }) {
+    console.log(auth);
     return (
         <>
             <DropdownMenuLabel className={'pt-3'}>
@@ -17,12 +17,14 @@ export default function MenuItem({ auth }) {
                     Home
                 </Link>
             </DropdownMenuItem>
-            <DropdownMenuItem asChild>
-                <Link href={route('dashboard')}>
-                    <Icon icon={'IconChartPie3'} />
-                    Dashboard
-                </Link>
-            </DropdownMenuItem>
+            {auth.user?.isAdmin && (
+                <DropdownMenuItem asChild>
+                    <Link href={route('dashboard')}>
+                        <Icon icon={'IconChartPie3'} />
+                        Dashboard
+                    </Link>
+                </DropdownMenuItem>
+            )}
             <DropdownMenuItem asChild>
                 <Link href={route('profile.index')}>
                     <Icon icon={'IconSettings'} />

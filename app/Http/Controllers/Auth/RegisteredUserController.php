@@ -2,7 +2,9 @@
 
 namespace App\Http\Controllers\Auth;
 
+use App\Enum\Gender;
 use App\Http\Controllers\Controller;
+use App\Http\Requests\StoreUserRequest;
 use App\Models\User;
 use App\Providers\RouteServiceProvider;
 use Illuminate\Auth\Events\Registered;
@@ -21,7 +23,12 @@ class RegisteredUserController extends Controller
      */
     public function create(): Response
     {
-        return Inertia::render('auth/register');
+        $genders = array_map(
+            fn($category) => ['value' => $category->value, 'label' => $category->labels()],
+            Gender::cases()
+        );
+
+        return Inertia::render('auth/register', compact('genders'));
     }
 
     /**
@@ -29,25 +36,25 @@ class RegisteredUserController extends Controller
      *
      * @throws \Illuminate\Validation\ValidationException
      */
-    public function store(Request $request): RedirectResponse
+    public function validateFirstStep(Request $request)
     {
         $request->validate([
-            'name' => 'required|string|max:255',
+            'username' => 'required|string|unique:' . User::class,
             'email' => 'required|string|email|max:255|unique:' . User::class,
             'password' => ['required', 'confirmed', Rules\Password::defaults()],
         ]);
+    }
+    public function store(StoreUserRequest $request): RedirectResponse
+    {
+        $validated = $request->validated();
+        $validated['password'] = Hash::make($request->password);
 
-        $user = User::create([
-            'name' => $request->name,
-            'username' => strtolower(Str::of($request->name)->explode(' ')->get(0)) . mt_rand(11111, 99999),
-            'email' => $request->email,
-            'password' => Hash::make($request->password),
-        ])->addRole('admin');
+        $user = User::create($validated)->addRole('customer');
 
         event(new Registered($user));
 
         auth()->login($user);
 
-        return redirect(RouteServiceProvider::HOME);
+        return redirect('home-controller');
     }
 }

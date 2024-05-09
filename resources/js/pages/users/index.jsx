@@ -1,5 +1,5 @@
 import AuthLayout from '@/Layouts/auth-layout';
-import { Avatar, AvatarFallback, AvatarImage } from '@/components/avatar';
+import { Button } from '@/components/button';
 import { Card, CardContent, CardDescription, CardFooter, CardHeader, CardTitle } from '@/components/card';
 import Container from '@/components/container';
 import { Input } from '@/components/input';
@@ -8,6 +8,7 @@ import { SimplePagination } from '@/components/simple-pagination';
 import { SortIndicator } from '@/components/sort-indicator';
 import { Table, TableBody, TableCell, TableHead, TableHeader, TableRow } from '@/components/table';
 import { useFilter } from '@/hooks/useFilter';
+import { Link } from '@inertiajs/react';
 import { useState } from 'react';
 import { UserListOptions } from './partials/user-list-options';
 
@@ -35,8 +36,16 @@ export default function Index(props) {
         <Container className={'lg:mx-auto lg:max-w-5xl'}>
             <Card>
                 <CardHeader>
-                    <CardTitle>Users</CardTitle>
-                    <CardDescription>The list of the registered users.</CardDescription>
+                    <div className='flex flex-col items-start justify-between gap-3 md:flex-row md:items-center'>
+                        <div>
+                            <CardTitle>Users</CardTitle>
+                            <CardDescription>The list of the registered users.</CardDescription>
+                        </div>
+
+                        <Button asChild>
+                            <Link href={route('users.create')}>Tambah</Link>
+                        </Button>
+                    </div>
                 </CardHeader>
                 <CardContent>
                     <div className='mb-3 flex items-center justify-between'>
@@ -68,9 +77,6 @@ export default function Index(props) {
                                 <TableHead onClick={() => handleSort('username')}>
                                     <SortIndicator label='username' column='username' field={params?.field} direction={params?.direction} />
                                 </TableHead>
-                                <TableHead onClick={() => handleSort('email_verified_at')}>
-                                    <SortIndicator label='verified' column='email_verified_at' field={params?.field} direction={params?.direction} />
-                                </TableHead>
                                 <TableHead onClick={() => handleSort('created_at')}>
                                     <SortIndicator label='joined' column='created_at' field={params?.field} direction={params?.direction} />
                                 </TableHead>
@@ -88,12 +94,6 @@ export default function Index(props) {
                                             <TableCell className='w-0 py-7 text-center'>{meta.from + i}</TableCell>
                                             <TableCell>
                                                 <div className='flex items-center font-normal'>
-                                                    <div className='mr-3 shrink-0'>
-                                                        <Avatar>
-                                                            <AvatarImage src={user.avatar} />
-                                                            <AvatarFallback>{user.acronym}</AvatarFallback>
-                                                        </Avatar>
-                                                    </div>
                                                     <div>
                                                         <div>
                                                             <p>{user.name}</p>
@@ -103,7 +103,6 @@ export default function Index(props) {
                                                 </div>
                                             </TableCell>
                                             <TableCell>{user.username}</TableCell>
-                                            <TableCell className={user.email_verified_at == 'Email not verified' ? 'font-medium text-destructive' : ''}>{user.email_verified_at}</TableCell>
                                             <TableCell>{user.created_at}</TableCell>
                                             <TableCell>{user.updated_at}</TableCell>
                                             <TableCell>

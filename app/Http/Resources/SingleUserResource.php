@@ -11,11 +11,13 @@ class SingleUserResource extends JsonResource
     {
         return [
             'id' => $this->id,
-            'avatar' => $this->avatar(),
             'username' => $this->username,
-            'name' => $this->name,
+            'nama_lengkap' => $this->nama_lengkap,
+            'tanggal_lahir' => $this->tanggal_lahir,
+            'no_telp' => $this->no_telp,
+            'jenis_kelamin' => $this->jenis_kelamin,
+            'alamat' => $this->alamat,
             'email' => $this->email,
-            'email_verified' => $this->email_verified_at?->diffForHumans() ?? 'Email not verified',
             'joined' => $this->created_at->diffForHumans(),
             'updated' => $this->updated_at->diffForHumans(),
         ];

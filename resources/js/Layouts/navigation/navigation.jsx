@@ -1,13 +1,13 @@
 import ApplicationLogo from '@/components/application-logo';
-import { Link, usePage } from '@inertiajs/react';
-import { DropdownMenu, DropdownMenuContent, DropdownMenuTrigger } from '@/components/dropdown-menu';
-import { ThemeToggle } from '@/components/theme-toggle';
-import PrimaryLink from '@/components/primary-link';
 import { buttonVariants } from '@/components/button';
-import ProfileTrigger from './profile-trigger';
-import MenuItem from './menu-item';
-import { CommandPalette } from '../command/command-palette';
+import { DropdownMenu, DropdownMenuContent, DropdownMenuTrigger } from '@/components/dropdown-menu';
 import { Icon } from '@/components/icon';
+import PrimaryLink from '@/components/primary-link';
+import { ThemeToggle } from '@/components/theme-toggle';
+import { Link, usePage } from '@inertiajs/react';
+import { CommandPalette } from '../command/command-palette';
+import MenuItem from './menu-item';
+import ProfileTrigger from './profile-trigger';
 
 export default function NavigationMenu({ openCommandPalette, setOpenCommandPalette }) {
     const { auth } = usePage().props;

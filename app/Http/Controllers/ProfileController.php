@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers;
 
+use App\Enum\Gender;
 use App\Http\Requests\ProfileUpdateRequest;
 use Illuminate\Contracts\Auth\MustVerifyEmail;
 use Illuminate\Http\RedirectResponse;
@@ -13,8 +14,13 @@ class ProfileController extends Controller
 {
     public function index(Request $request): Response
     {
+        $genders = array_map(
+            fn($category) => ['value' => $category->value, 'label' => $category->labels()],
+            Gender::cases()
+        );
+
         return Inertia::render('profile/index', [
-            'mustVerifyEmail' => $request->user() instanceof MustVerifyEmail,
+            'genders' => $genders,
             'status' => session('status'),
         ]);
     }

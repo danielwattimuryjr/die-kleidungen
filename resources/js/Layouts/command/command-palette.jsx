@@ -1,7 +1,7 @@
-import { useEffect } from 'react';
 import { CommandDialog, CommandEmpty, CommandGroup, CommandInput, CommandItem, CommandList, CommandSeparator } from '@/components/command';
-import { router, usePage } from '@inertiajs/react';
 import { Icon } from '@/components/icon';
+import { router, usePage } from '@inertiajs/react';
+import { useEffect } from 'react';
 
 export function CommandPalette({ openCommandPalette, setOpenCommandPalette }) {
     const { auth } = usePage().props;
@@ -53,23 +53,41 @@ export function CommandPalette({ openCommandPalette, setOpenCommandPalette }) {
                     <>
                         <CommandSeparator />
                         <CommandGroup heading='Settings'>
-                            <CommandItem onSelect={() => Redirect(route('dashboard'))}>
-                                <Icon icon={'IconChartPie'} className='mr-2 h-4 w-4 stroke-[1.3px]' />
-                                <span>Dashboard</span>
-                            </CommandItem>
+                            {auth.user.isAdmin && (
+                                <CommandItem onSelect={() => Redirect(route('dashboard'))}>
+                                    <Icon icon={'IconChartPie'} className='mr-2 h-4 w-4 stroke-[1.3px]' />
+                                    <span>Dashboard</span>
+                                </CommandItem>
+                            )}
                             <CommandItem onSelect={() => Redirect(route('profile.index'))}>
                                 <Icon icon={'IconSettings'} className='mr-2 h-4 w-4 stroke-[1.3px]' />
                                 <span>Settings</span>
                             </CommandItem>
-                            <CommandItem onSelect={() => Redirect(route('security.index'))}>
-                                <Icon icon={'IconShieldLock'} className='mr-2 h-4 w-4 stroke-[1.3px]' />
-                                <span>Security</span>
-                            </CommandItem>
-                            <CommandItem onSelect={() => Redirect(route('danger.index'))}>
-                                <Icon icon={'IconAlertTriangle'} className='mr-2 h-4 w-4 stroke-[1.3px]' />
-                                <span>Danger Zone</span>
-                            </CommandItem>
+                            {auth.user.isAdmin && (
+                                <>
+                                    <CommandItem onSelect={() => Redirect(route('security.index'))}>
+                                        <Icon icon={'IconShieldLock'} className='mr-2 h-4 w-4 stroke-[1.3px]' />
+                                        <span>Security</span>
+                                    </CommandItem>
+                                    <CommandItem onSelect={() => Redirect(route('danger.index'))}>
+                                        <Icon icon={'IconAlertTriangle'} className='mr-2 h-4 w-4 stroke-[1.3px]' />
+                                        <span>Danger Zone</span>
+                                    </CommandItem>
+                                </>
+                            )}
                         </CommandGroup>
+                        {auth.user?.isAdmin && (
+                            <CommandGroup heading='Management'>
+                                <CommandItem onSelect={() => Redirect(route('users.index'))}>
+                                    <Icon icon={'IconUsersGroup'} className='mr-2 h-4 w-4 stroke-[1.3px]' />
+                                    <span>Users</span>
+                                </CommandItem>
+                                <CommandItem onSelect={() => Redirect(route('products.index'))}>
+                                    <Icon icon={'IconPackages'} className='mr-2 h-4 w-4 stroke-[1.3px]' />
+                                    <span>Products</span>
+                                </CommandItem>
+                            </CommandGroup>
+                        )}
                         <CommandSeparator />
                         <CommandGroup>
                             <CommandItem onSelect={() => Logout(route('logout'))}>

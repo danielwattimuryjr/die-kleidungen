@@ -16,7 +16,11 @@ class User extends Authenticatable implements LaratrustUser
     use HasApiTokens, HasFactory, Notifiable, HasRolesAndPermissions;
 
     protected $fillable = [
-        'name',
+        'nama_lengkap',
+        'no_telp',
+        'jenis_kelamin',
+        'tanggal_lahir',
+        'alamat',
         'username',
         'email',
         'password',

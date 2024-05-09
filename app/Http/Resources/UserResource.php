@@ -11,10 +11,9 @@ class UserResource extends JsonResource
     {
         return [
             'id' => $this->id,
-            'avatar' => $this->avatar(),
             'username' => $this->username,
-            'name' => $this->name,
-            'acronym' => acronym($this->name),
+            'name' => $this->nama_lengkap,
+            'acronym' => acronym($this->nama_lengkap),
             'email' => $this->email,
             'email_verified_at' => $this->email_verified_at?->diffForHumans() ?? 'Email not verified',
             'created_at' => $this->created_at->diffForHumans(),

@@ -5,15 +5,18 @@ use App\Http\Controllers\Auth\SecurityController;
 use App\Http\Controllers\Auth\UserController;
 use App\Http\Controllers\DashboardController;
 use App\Http\Controllers\HomeController;
+use App\Http\Controllers\OrderController;
 use App\Http\Controllers\ProductController;
 use App\Http\Controllers\ProfileController;
 use Illuminate\Support\Facades\Route;
 
-Route::get('/', HomeController::class)->name('home');
+Route::get('/', function () {
+    return inertia('home/index');
+})->name('home');
+
+Route::get('home-controller', [HomeController::class, 'index'])->name('home-controller');
 
 Route::middleware('auth')->group(function () {
-    Route::get('dashboard', DashboardController::class)->middleware(['verified'])->name('dashboard');
-
     Route::controller(ProfileController::class)->group(function () {
         Route::get('profile', 'index')->name('profile.index');
         Route::patch('profile', 'update')->name('profile.update');
@@ -29,18 +32,18 @@ Route::middleware('auth')->group(function () {
         Route::delete('danger', 'destroy')->name('danger.destroy');
     });
 
-    Route::controller(UserController::class)->group(function () {
-        Route::get('users', 'index')->name('users.index');
-        Route::get('users/{user}', 'show')->name('users.show');
-        Route::delete('users/{user}', 'destroy')->name('users.destroy');
-    });
-
-    Route::middleware(['role:admin'])->group(function () {
+    Route::prefix('/admin-panel/')->middleware(['role:admin'])->group(function () {
         Route::resource('products', ProductController::class);
+
         Route::patch('products/{product}/update_status/{new_status}', [
             ProductController::class,
             'update_status'
         ])->name('products.update-status');
+
+        Route::get('dashboard', DashboardController::class)->middleware(['verified'])->name('dashboard');
+
+        Route::resource('users', UserController::class);
+        Route::resource('orders', OrderController::class);
     });
 });
 

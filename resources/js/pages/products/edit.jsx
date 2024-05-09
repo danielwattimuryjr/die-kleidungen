@@ -35,6 +35,7 @@ export default function Edit(props) {
             },
             onError: () => {
                 toast({
+                    variant: 'destructive',
                     title: 'Uh oh... . Product update failed. 😥',
                     description: getTimeStamp(),
                 });
@@ -65,7 +66,7 @@ export default function Edit(props) {
                                 Kategori Produk
                             </Label>
 
-                            <Select id='kategori' onValueChange={(value) => setData('category', value)}>
+                            <Select id='kategori' onValueChange={(value) => setData('category', value)} defaultValue={data.category}>
                                 <SelectTrigger>
                                     <SelectValue placeholder='Pilih kategori' />
                                 </SelectTrigger>

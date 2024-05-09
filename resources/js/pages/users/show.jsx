@@ -1,8 +1,7 @@
 import AuthLayout from '@/Layouts/auth-layout';
-import { Avatar, AvatarFallback } from '@/components/avatar';
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from '@/components/card';
 import Container from '@/components/container';
-import { AvatarImage } from '@radix-ui/react-avatar';
+import { Separator } from '@/components/separator';
 import { UserListOptions } from './partials/user-list-options';
 
 export default function Show({ user }) {
@@ -19,17 +18,12 @@ export default function Show({ user }) {
                     </div>
                 </CardHeader>
                 <CardContent>
-                    <div className='flex items-center justify-center'>
-                        <Avatar className={'h-52 w-52 border-2'}>
-                            <AvatarImage src={user.avatar} />
-                            <AvatarFallback>{user.acronym}</AvatarFallback>
-                        </Avatar>
-                    </div>
-                    <div className='mt-5 text-center'>
-                        <h4 className='font-medium text-primary'>{user.name}</h4>
-                        <p className='text-sm text-muted-foreground'>{user.email}</p>
-                    </div>
                     <div className='mt-5 space-y-2'>
+                        <Grid>
+                            <GridTitle>Email</GridTitle>
+                            <GridColon>:</GridColon>
+                            <GridValue>{user.email}</GridValue>
+                        </Grid>
                         <Grid>
                             <GridTitle>Username</GridTitle>
                             <GridColon>:</GridColon>
@@ -41,14 +35,37 @@ export default function Show({ user }) {
                             <GridValue>{user.joined}</GridValue>
                         </Grid>
                         <Grid>
-                            <GridTitle>Verified</GridTitle>
-                            <GridColon>:</GridColon>
-                            <GridValue>{user.email_verified}</GridValue>
-                        </Grid>
-                        <Grid>
                             <GridTitle>Updated</GridTitle>
                             <GridColon>:</GridColon>
                             <GridValue>{user.updated}</GridValue>
+                        </Grid>
+                    </div>
+                    <Separator className='my-6' />
+                    <div className='space-y-2'>
+                        <Grid>
+                            <GridTitle>Nama Lengkap</GridTitle>
+                            <GridColon>:</GridColon>
+                            <GridValue>{user.nama_lengkap}</GridValue>
+                        </Grid>
+                        <Grid>
+                            <GridTitle>Tgl. Lahir</GridTitle>
+                            <GridColon>:</GridColon>
+                            <GridValue>{user.tanggal_lahir}</GridValue>
+                        </Grid>
+                        <Grid>
+                            <GridTitle>No. Telepon</GridTitle>
+                            <GridColon>:</GridColon>
+                            <GridValue>{user.no_telp}</GridValue>
+                        </Grid>
+                        <Grid>
+                            <GridTitle>Jenis Kelamin</GridTitle>
+                            <GridColon>:</GridColon>
+                            <GridValue>{user.jenis_kelamin}</GridValue>
+                        </Grid>
+                        <Grid>
+                            <GridTitle>Alamat</GridTitle>
+                            <GridColon>:</GridColon>
+                            <GridValue>{user.alamat}</GridValue>
                         </Grid>
                     </div>
                 </CardContent>

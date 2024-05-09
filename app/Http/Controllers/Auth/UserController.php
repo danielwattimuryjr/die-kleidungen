@@ -86,9 +86,11 @@ class UserController extends Controller
 
     public function show(User $user)
     {
-        // return new SingleUserResource($user);
+        $user = new SingleUserResource($user);
+        $user['jenis_kelamin'] = Gender::from($user->jenis_kelamin)->labels();
+
         return inertia('users/show', [
-            'user' => new SingleUserResource($user),
+            'user' => $user,
         ]);
     }
 

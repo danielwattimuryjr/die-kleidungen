@@ -4,12 +4,14 @@ namespace App\Http\Controllers;
 
 class HomeController extends Controller
 {
-    public function index()
+    public function redirect()
     {
-        if (auth()->user()->hasRole('admin')) {
-            return inertia('dashboard/index');
-        } else {
-            return inertia('home/index');
+        if (auth()->check()) {
+            # code...
+            if (auth()->user()->hasRole('admin')) {
+                return inertia('dashboard/index');
+            }
         }
+        return to_route('home');
     }
 }

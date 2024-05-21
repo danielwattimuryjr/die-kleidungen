@@ -18,4 +18,16 @@ class Product extends Model
         'stock',
         'isActive'
     ];
+
+    public function users()
+    {
+        return $this->belongsToMany(User::class, 'carts', 'product_id', 'user_id')
+            ->using(Cart::class)
+            ->withPivot('quantity', 'sub_total');
+    }
+
+    public function order_details()
+    {
+        return $this->hasMany(OrderDetail::class);
+    }
 }

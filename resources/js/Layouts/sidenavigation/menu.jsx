@@ -39,8 +39,16 @@ export default function Menu({ setOpen }) {
                     <Separator className='!my-4' />
                 </>
             )}
+            {auth.user && (
+                <li>
+                    <PrimaryLink onSuccess={closeSidebar} href={route('show-user-cart')} active={route().current('show-user-cart')} className='flex items-center gap-x-3.5 rounded-lg p-2 text-[0.920rem]/[1.35rem]'>
+                        <Icon icon={'IconShoppingCart'} />
+                        My Cart
+                    </PrimaryLink>
+                </li>
+            )}
             <li>
-                <PrimaryLink onSuccess={closeSidebar} href={'#'} active={route().current('security.*')} className='flex items-center gap-x-3.5 rounded-lg p-2 text-[0.920rem]/[1.35rem]'>
+                <PrimaryLink onSuccess={closeSidebar} href={route('open-user-orders')} active={route().current('open-user-orders')} className='flex items-center gap-x-3.5 rounded-lg p-2 text-[0.920rem]/[1.35rem]'>
                     <Icon icon={'IconShoppingBag'} />
                     My Orders
                 </PrimaryLink>

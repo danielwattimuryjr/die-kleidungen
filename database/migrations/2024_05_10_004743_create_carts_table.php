@@ -9,20 +9,16 @@ use Illuminate\Support\Facades\Schema;
 return new class extends Migration {
     public function up(): void
     {
-        Schema::create('orders', function (Blueprint $table) {
-            $table->id();
+        Schema::create('carts', function (Blueprint $table) {
             $table->foreignIdFor(User::class)->constrained()->cascadeOnDelete();
-            $table->string('nama_penerima', 50);
-            $table->string('no_telp_penerima', 16);
-            $table->text('alamat_penerima');
-            $table->text('catatan_penerima');
-            $table->text('total_belanja');
-            $table->timestamps();
+            $table->foreignIdFor(Product::class)->constrained()->cascadeOnDelete();
+            $table->integer('quantity');
+            $table->decimal('sub_total');
         });
     }
 
     public function down(): void
     {
-        Schema::dropIfExists('orders');
+        Schema::dropIfExists('carts');
     }
 };

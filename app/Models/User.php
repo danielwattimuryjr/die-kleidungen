@@ -45,4 +45,21 @@ class User extends Authenticatable implements LaratrustUser
     {
         return 'https://www.gravatar.com/avatar/' . md5($this->email) . '?s=' . $size . '&d=mm';
     }
+
+    public function cart_items()
+    {
+        return $this->belongsToMany(Product::class, 'carts', 'user_id', 'product_id')
+            ->using(Cart::class)
+            ->withPivot('quantity', 'sub_total');
+    }
+
+    public function orders()
+    {
+        return $this->hasMany(Order::class);
+    }
+
+    public function order_details()
+    {
+        return $this->hasManyThrough(OrderDetail::class, Order::class);
+    }
 }

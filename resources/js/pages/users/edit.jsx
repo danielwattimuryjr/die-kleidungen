@@ -127,7 +127,7 @@ export default function Edit(props) {
                         </div>
                     </CardContent>
                     <CardFooter className='flex flex-row-reverse items-center gap-2 pt-6'>
-                        <Button>Update</Button>
+                        <Button disabled={processing}>Update</Button>
                         <Button variant='destructive'>Clear</Button>
                     </CardFooter>
                 </form>

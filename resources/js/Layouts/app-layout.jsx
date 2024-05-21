@@ -1,7 +1,8 @@
+import { Toaster } from '@/components/toaster';
 import { Head } from '@inertiajs/react';
-import React, { useState } from 'react';
-import ResponsiveNavigation from './navigation/responsive-navigation';
+import { useState } from 'react';
 import NavigationMenu from './navigation/navigation';
+import ResponsiveNavigation from './navigation/responsive-navigation';
 
 export default function AppLayout({ title, children }) {
     const [open, setOpen] = useState(false);
@@ -13,6 +14,7 @@ export default function AppLayout({ title, children }) {
                 <NavigationMenu openCommandPalette={open} setOpenCommandPalette={setOpen} />
                 {children}
             </main>
+            <Toaster />
         </>
     );
 }

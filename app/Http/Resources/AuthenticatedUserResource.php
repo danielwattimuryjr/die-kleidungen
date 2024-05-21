@@ -17,6 +17,7 @@ class AuthenticatedUserResource extends JsonResource
             'email' => $this->email,
             'avatar' => $this->avatar(),
             'isAdmin' => auth()->user()->hasRole('admin'),
+            'total_cart_item' => auth()->user()->cart_items()->distinct()->count('product_id'),
             'tanggal_lahir' => $this->tanggal_lahir,
             'no_telp' => $this->no_telp,
             'jenis_kelamin' => $this->jenis_kelamin,

@@ -1,5 +1,6 @@
 import ApplicationLogo from '@/components/application-logo';
-import { buttonVariants } from '@/components/button';
+import { Badge } from '@/components/badge';
+import { Button, buttonVariants } from '@/components/button';
 import { DropdownMenu, DropdownMenuContent, DropdownMenuTrigger } from '@/components/dropdown-menu';
 import { Icon } from '@/components/icon';
 import PrimaryLink from '@/components/primary-link';
@@ -11,6 +12,7 @@ import ProfileTrigger from './profile-trigger';
 
 export default function NavigationMenu({ openCommandPalette, setOpenCommandPalette }) {
     const { auth } = usePage().props;
+
     return (
         <>
             <CommandPalette openCommandPalette={openCommandPalette} setOpenCommandPalette={setOpenCommandPalette} />
@@ -33,6 +35,12 @@ export default function NavigationMenu({ openCommandPalette, setOpenCommandPalet
                                     </kbd>
                                 </button>
                                 <ThemeToggle />
+                                <Button variant='outline' className='h-[2.7rem] px-4' asChild>
+                                    <Link href={route('show-user-cart')}>
+                                        <Icon icon={'IconShoppingCart'} className={'me-1'} />
+                                        <Badge>{auth.user?.total_cart_item || '0'}</Badge>
+                                    </Link>
+                                </Button>
                                 {auth.user ? (
                                     <DropdownMenu>
                                         <DropdownMenuTrigger className={'select-none outline-none'}>

@@ -119,7 +119,7 @@ export default function Create(props) {
                         </div>
                     </CardContent>
                     <CardFooter className='flex flex-row-reverse items-center gap-2 pt-6'>
-                        <Button>Save</Button>
+                        <Button disabled={processing}>Save</Button>
                         <Button variant='destructive'>Clear</Button>
                     </CardFooter>
                 </form>

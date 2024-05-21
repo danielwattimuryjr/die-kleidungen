@@ -18,7 +18,6 @@ import { ProductListOptions } from './partials/product-list-options';
 export default function Index(props) {
     const { data: products, meta, links } = props.products;
 
-    console.log(products);
     const [params, setParams] = useState(props.state);
     useFilter({
         route: route('products.index'),

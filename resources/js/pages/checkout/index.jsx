@@ -53,7 +53,7 @@ export default function Index({ cartItems, auth }) {
             <Card>
                 <CardHeader>
                     <CardTitle>My Shopping Cart</CardTitle>
-                    <CardDescription>Pastikan bahwa barang telah sesuai!</CardDescription>
+                    <CardDescription>Make sure all the items is correct!</CardDescription>
                 </CardHeader>
                 <CardContent>
                     <Table>

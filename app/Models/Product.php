@@ -19,6 +19,14 @@ class Product extends Model
         'isActive'
     ];
 
+    protected function casts(): array
+    {
+        return [
+            'harga' => 'integer',
+            'stock' => 'integer',
+        ];
+    }
+
     public function users()
     {
         return $this->belongsToMany(User::class, 'carts', 'product_id', 'user_id')

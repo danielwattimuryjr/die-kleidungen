@@ -31,9 +31,15 @@ export default function Menu({ setOpen }) {
                         </PrimaryLink>
                     </li>
                     <li>
-                        <PrimaryLink onSuccess={closeSidebar} href={route('users.index')} active={route().current('orders.*')} className='flex items-center gap-x-3.5 rounded-lg p-2 text-[0.920rem]/[1.35rem]'>
+                        <PrimaryLink onSuccess={closeSidebar} href={route('orders.index')} active={route().current('orders.*')} className='flex items-center gap-x-3.5 rounded-lg p-2 text-[0.920rem]/[1.35rem]'>
                             <Icon icon={'IconShoppingBag'} />
                             Orders (Admin)
+                        </PrimaryLink>
+                    </li>
+                    <li>
+                        <PrimaryLink onSuccess={closeSidebar} href={route('payments.index')} active={route().current('payments.*')} className='flex items-center gap-x-3.5 rounded-lg p-2 text-[0.920rem]/[1.35rem]'>
+                            <Icon icon={'IconReceipt'} />
+                            Payments
                         </PrimaryLink>
                     </li>
                     <Separator className='!my-4' />
@@ -41,7 +47,7 @@ export default function Menu({ setOpen }) {
             )}
             {auth.user && (
                 <li>
-                    <PrimaryLink onSuccess={closeSidebar} href={route('show-user-cart')} active={route().current('show-user-cart')} className='flex items-center gap-x-3.5 rounded-lg p-2 text-[0.920rem]/[1.35rem]'>
+                    <PrimaryLink onSuccess={closeSidebar} href={route('show-user-cart')} active={route().current('user-cart')} className='flex items-center gap-x-3.5 rounded-lg p-2 text-[0.920rem]/[1.35rem]'>
                         <Icon icon={'IconShoppingCart'} />
                         My Cart
                     </PrimaryLink>

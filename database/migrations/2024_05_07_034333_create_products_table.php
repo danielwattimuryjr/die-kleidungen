@@ -10,11 +10,11 @@ return new class extends Migration {
         Schema::create('products', function (Blueprint $table) {
             $table->id();
             $table->string('nama', 50);
-            $table->integer('harga');
+            $table->string('harga');
             $table->longText('description');
             $table->string('gambar')->nullable()->default(null);
             $table->string('category', 50);
-            $table->integer('stock');
+            $table->string('stock');
             $table->boolean('isActive')->default(true);
             $table->timestamps();
         });

@@ -2,12 +2,16 @@
 
 namespace App\Http\Controllers;
 
+use App\Enum\OrderStatus;
 use App\Enum\ProductCategory;
 use App\Http\Requests\StoreCheckoutRequest;
 use App\Http\Resources\CartItemResource;
+use App\Http\Resources\OrderDetailResource;
+use App\Http\Resources\OrderResource;
 use App\Http\Resources\ProductResource;
 use App\Http\Resources\SingleProductResource;
 use App\Models\Cart;
+use App\Models\Order;
 use App\Models\Product;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\DB;
@@ -161,7 +165,7 @@ class CustomerActionController extends Controller
 
             Log::info("New Order#$order->id FOR USER#$user->id");
 
-            return to_route('open-upload-payment');
+            return to_route('open-upload-payment', $order);
         } catch (\Throwable $th) {
             Log::error('Exception caught: ' . $th->getMessage(), [
                 'file' => $th->getFile(),
@@ -173,13 +177,84 @@ class CustomerActionController extends Controller
         }
     }
 
-    public function openUploadPaymentPage()
+    public function openUploadPaymentPage(Order $order)
     {
-        return inertia('upload_payment/index');
+        $order_details = OrderDetailResource::collection($order->order_details->load('product'));
+
+        return inertia('upload_payment/index', compact('order', 'order_details'));
     }
 
-    public function openUserOrders()
+    public function openUserOrders(Request $request)
     {
-        return inertia('user_orders/index');
+        $user_id = auth()->id();
+
+        $request->validate([
+            'field' => Rule::in(['updated_at', 'created_at', 'nama_penerima', 'status', 'total_belanja']),
+            'direction' => Rule::in(['asc', 'desc']),
+        ]);
+
+        $limit = $request->input('limit', 10);
+
+        $orders = OrderResource::collection(
+            Order::query()
+                ->with('payment')
+                ->where('user_id', $user_id)
+                ->when(
+                    value: $request->search,
+                    callback: fn($query, $value) => $query->where('nama_penerima', 'like', '%' . $value . '%')
+                        ->orWhere('status', 'like', '%' . $value . '%')
+                )
+                ->when(
+                    value: $request->field && $request->direction,
+                    callback: fn($query) => $query->orderBy($request->field, $request->direction),
+                    default: fn($query) => $query->latest()
+                )
+                ->fastPaginate($limit)
+                ->withQueryString()
+        );
+
+        return inertia('user_orders/index', [
+            'orders' => fn() => $orders,
+            'state' => $request->only('limit', 'page', 'search', 'field', 'direction'),
+        ]);
+    }
+
+    public function cancelOrder(Order $order)
+    {
+        DB::beginTransaction();
+
+        try {
+            $order->update([
+                'status' => OrderStatus::CANCELED
+            ]);
+
+            foreach ($order->order_details as $order_detail) {
+                $product = $order_detail->product;
+                $product->stock += $order_detail->quantity;
+                $product->save();
+            }
+
+            Log::info("Order#$order->id has been canceled, and the product already return to it's previous state.");
+
+            DB::commit();
+        } catch (\Throwable $th) {
+            Log::error('Exception caught: ' . $th->getMessage(), [
+                'file' => $th->getFile(),
+                'line' => $th->getLine(),
+                'trace' => $th->getTraceAsString(),
+            ]);
+
+            DB::rollBack();
+        }
+    }
+
+    public function showOrderDetail(Order $order)
+    {
+        $order_details = OrderDetailResource::collection($order->order_details);
+
+        return inertia('user_orders/show', [
+            'order' => new OrderResource($order),
+            'order_details' => $order_details
+        ]);
     }
 }

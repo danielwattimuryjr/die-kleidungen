@@ -16,7 +16,8 @@ return new class extends Migration {
             $table->string('no_telp_penerima', 16);
             $table->text('alamat_penerima');
             $table->text('catatan_penerima');
-            $table->text('total_belanja');
+            $table->string('total_belanja');
+            $table->string('status');
             $table->timestamps();
         });
     }

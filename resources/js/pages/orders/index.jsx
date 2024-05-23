@@ -9,14 +9,14 @@ import { Table, TableBody, TableCell, TableHead, TableHeader, TableRow } from '@
 import { useFilter } from '@/hooks/useFilter';
 import { formatCurrency } from '@/lib/utils';
 import { useState } from 'react';
-import { OrderListOptions } from './partials/order-list-options';
+import { OrderListOptions } from './partials/order-list-option';
 
 export default function Index(props) {
     const { data: orders, meta, links } = props.orders;
     const [params, setParams] = useState(props.state);
 
     useFilter({
-        route: route('open-user-orders'),
+        route: route('orders.index'),
         values: params,
         only: ['orders'],
     });
@@ -36,7 +36,7 @@ export default function Index(props) {
         <Container className={'lg:mx-auto lg:max-w-5xl'}>
             <Card>
                 <CardHeader>
-                    <CardTitle>My Orders</CardTitle>
+                    <CardTitle>All Orders</CardTitle>
                 </CardHeader>
                 <CardContent>
                     <div className='mb-3 flex items-center justify-between'>

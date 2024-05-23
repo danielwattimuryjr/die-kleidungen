@@ -27,7 +27,6 @@ export default function Index({ cartItems: items }) {
                 });
             },
         });
-        console.log(id);
     };
 
     return (

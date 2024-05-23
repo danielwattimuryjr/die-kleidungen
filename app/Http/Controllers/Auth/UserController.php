@@ -6,6 +6,7 @@ use App\Enum\Gender;
 use App\Http\Controllers\Controller;
 use App\Http\Requests\StoreUserRequest;
 use App\Http\Requests\UpdateUserRequest;
+use App\Http\Resources\CartItemResource;
 use App\Http\Resources\SingleUserResource;
 use App\Http\Resources\UserResource;
 use App\Models\User;
@@ -88,9 +89,11 @@ class UserController extends Controller
     {
         $user = new SingleUserResource($user);
         $user['jenis_kelamin'] = Gender::from($user->jenis_kelamin)->labels();
+        $user_cart = CartItemResource::collection($user->cart_items);
 
         return inertia('users/show', [
             'user' => $user,
+            'cart_items' => $user_cart,
         ]);
     }
 

@@ -8,7 +8,9 @@ use App\Http\Controllers\DashboardController;
 use App\Http\Controllers\HomeController;
 use App\Http\Controllers\OrderController;
 use App\Http\Controllers\ProductController;
+use App\Http\Controllers\PaymentController;
 use App\Http\Controllers\ProfileController;
+use App\Http\Controllers\UploadPictureController;
 use Illuminate\Support\Facades\Route;
 
 Route::get('/', [CustomerActionController::class, 'getActiveProducts'])->name('home');
@@ -22,8 +24,16 @@ Route::middleware('auth')->group(function () {
     Route::delete('/remove-from-cart/{product}', [CustomerActionController::class, 'removeFromCart'])->name('remove-from-cart');
     Route::get('/checkout-form', [CustomerActionController::class, 'openCheckoutForm'])->name('open-checkout-form');
     Route::post('/checkout-form', [CustomerActionController::class, 'createOrder'])->name('create-order');
-    Route::get('/upload-payment', [CustomerActionController::class, 'openUploadPaymentPage'])->name('open-upload-payment');
+    Route::get('/upload-payment/{order}', [CustomerActionController::class, 'openUploadPaymentPage'])->name('open-upload-payment');
     Route::get('/my-orders', [CustomerActionController::class, 'openUserOrders'])->name('open-user-orders');
+    Route::patch('/cancel-order/{order}', [CustomerActionController::class, 'cancelOrder'])->name('cancel-order');
+    Route::get('/order-details/{order}', [CustomerActionController::class, 'showOrderDetail'])->name('show-order-details');
+    Route::post('/store-payment/{order}', [PaymentController::class, 'store'])->name('payments.store');
+
+    Route::controller(UploadPictureController::class)->group(function () {
+        Route::post('/upload-picture/{folder_name}', 'upload')->name('upload-picture');
+        Route::delete('/revert-picture/{folder_name}/{file_name}', 'revert')->name('revert-picture');
+    });
 
     Route::controller(ProfileController::class)->group(function () {
         Route::get('profile', 'index')->name('profile.index');
@@ -51,7 +61,13 @@ Route::middleware('auth')->group(function () {
         Route::get('dashboard', DashboardController::class)->middleware(['verified'])->name('dashboard');
 
         Route::resource('users', UserController::class);
-        Route::resource('orders', OrderController::class);
+
+        Route::patch('/orders/{order}/update-status/{status}', [OrderController::class, 'update'])->name('orders.update');
+        Route::get('/orders', [OrderController::class, 'index'])->name('orders.index');
+        Route::delete('/orders/{order}/destroy', [OrderController::class, 'destroy'])->name('orders.destroy');
+        Route::patch('/payments/{payment}/{status}', [PaymentController::class, 'update'])->name('payments.update');
+        Route::get('/payments', [PaymentController::class, 'index'])->name('payments.index');
+        // Route::resource('orders', OrderController::class);
     });
 });
 

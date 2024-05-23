@@ -8,6 +8,14 @@ class Cart extends Pivot
 {
     protected $fillable = ['user_id', 'product_id', 'quantity', 'sub_total'];
 
+    protected function casts(): array
+    {
+        return [
+            'sub_total' => 'integer',
+            'quantity' => 'integer',
+        ];
+    }
+
     public function addProduct($product, $quantity)
     {
         $user = auth()->user();

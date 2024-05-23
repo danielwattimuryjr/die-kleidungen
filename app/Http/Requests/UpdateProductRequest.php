@@ -23,7 +23,7 @@ class UpdateProductRequest extends FormRequest
             'category' => 'required',
             'harga' => 'required|min:1',
             'stock' => 'required|min:0',
-            'description' => 'required'
+            'description' => 'required',
         ];
     }
 }

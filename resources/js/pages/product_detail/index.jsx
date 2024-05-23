@@ -65,7 +65,7 @@ export default function Index(props) {
                 <div className='mx-auto max-w-screen-xl px-4 py-8 sm:px-6 sm:py-12 lg:px-8 lg:py-16'>
                     <div className='grid grid-cols-1 gap-8 lg:grid-cols-2 lg:gap-16'>
                         <div className='w-full'>
-                            <img alt='Party' src={product?.gambar || 'https://placehold.co/600x400'} className=' w-full' />
+                            <img alt='Party' src={product.image_url || 'https://placehold.co/600x400'} className=' w-full' />
                         </div>
 
                         <div>

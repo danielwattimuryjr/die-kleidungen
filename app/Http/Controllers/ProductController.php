@@ -8,10 +8,12 @@ use App\Http\Requests\UpdateProductRequest;
 use App\Http\Resources\ProductResource;
 use App\Http\Resources\SingleProductResource;
 use App\Models\Product;
+use App\Models\TemporaryImage;
 use DB;
 use Illuminate\Http\Request;
 use Illuminate\Validation\Rule;
 use Log;
+use Storage;
 
 class ProductController extends Controller
 {
@@ -62,6 +64,11 @@ class ProductController extends Controller
         try {
             $product = Product::create($request->validated());
 
+            $temp_image = TemporaryImage::where('file', $product->image)->first();
+
+            if ($temp_image)
+                $temp_image->delete();
+
             DB::commit();
 
             Log::info("New Product Added #$product->id");
@@ -108,7 +115,9 @@ class ProductController extends Controller
         DB::beginTransaction();
 
         try {
-            $product->update($request->validated());
+            $validatedData = $request->validated();
+
+            $product->update($validatedData);
 
             DB::commit();
 
@@ -134,6 +143,7 @@ class ProductController extends Controller
 
         try {
             $product->delete();
+            Storage::disk('public')->delete("images/product_image/$product->image");
 
             DB::commit();
 
@@ -184,6 +194,40 @@ class ProductController extends Controller
             DB::rollBack();
 
             return to_route('products.index');
+        }
+    }
+
+    public function updateProductImage(Product $product, Request $request)
+    {
+        DB::beginTransaction();
+
+        $request->validate([
+            'image' => 'required'
+        ]);
+
+        try {
+            Storage::disk('public')->delete("images/product_image/$product->image");
+
+            $product->update([
+                'image' => $request->image
+            ]);
+
+            $temp_image = TemporaryImage::where('file', $request->image)->first();
+
+            if ($temp_image)
+                $temp_image->delete();
+
+            Log::info("Product Image ID#$product->id is updated");
+
+            DB::commit();
+        } catch (\Throwable $th) {
+            Log::error('Exception caught: ' . $th->getMessage(), [
+                'file' => $th->getFile(),
+                'line' => $th->getLine(),
+                'trace' => $th->getTraceAsString(),
+            ]);
+
+            DB::rollBack();
         }
     }
 }

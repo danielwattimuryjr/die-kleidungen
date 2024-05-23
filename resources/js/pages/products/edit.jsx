@@ -13,8 +13,6 @@ import { useForm } from '@inertiajs/react';
 
 export default function Edit(props) {
     const { categories, product } = props;
-    console.log(product);
-
     const { data, setData, patch, processing, errors, reset } = useForm({
         nama: product.nama,
         stock: product.stock,
@@ -53,7 +51,7 @@ export default function Edit(props) {
                     <CardContent>
                         <div>
                             <Label htmlFor='nama' className={'capitalize'}>
-                                nama produk
+                                Product Name
                             </Label>
 
                             <Input id='nama' type='text' name='nama' value={data.nama} className='mt-1 block w-full' autoComplete='username' autoFocus onChange={(e) => setData('nama', e.target.value)} />
@@ -63,7 +61,7 @@ export default function Edit(props) {
 
                         <div className='mt-4'>
                             <Label htmlFor='kategori' className={'capitalize'}>
-                                Kategori Produk
+                                Product Category
                             </Label>
 
                             <Select id='kategori' onValueChange={(value) => setData('category', value)} defaultValue={data.category}>
@@ -96,7 +94,7 @@ export default function Edit(props) {
 
                         <div className='mt-4'>
                             <Label htmlFor='nama' className={'capitalize'}>
-                                harga Produk
+                                Product Price
                             </Label>
 
                             <Input id='harga' type='number' name='harga' value={data.harga} className='mt-1 block w-full' autoComplete='username' autoFocus onChange={(e) => setData('harga', e.target.value)} min={0} />
@@ -106,7 +104,7 @@ export default function Edit(props) {
 
                         <div className='mt-4'>
                             <Label htmlFor='deskripsi' className={'capitalize'}>
-                                deskripsi produk
+                                Product Desc
                             </Label>
 
                             <Tiptap

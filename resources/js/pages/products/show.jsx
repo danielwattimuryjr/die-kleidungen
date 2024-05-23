@@ -21,43 +21,43 @@ export default function Show(props) {
                     </div>
                 </CardHeader>
                 <CardContent>
-                    <div class='grid grid-cols-1 gap-4 lg:grid-cols-3 lg:gap-8'>
+                    <div className='grid grid-cols-1 gap-4 lg:grid-cols-3 lg:gap-8'>
                         <div>
-                            <img src={'https://placehold.co/300'} className='m-auto' />
+                            <img src={product.image_url || 'https://placehold.co/300'} className='m-auto' />
                         </div>
-                        <div class='lg:col-span-2'>
-                            <h1 class='text-2xl font-bold tracking-tight  sm:text-3xl'>{product.nama}</h1>
+                        <div className='lg:col-span-2'>
+                            <h1 className='text-2xl font-bold tracking-tight  sm:text-3xl'>{product.nama}</h1>
 
-                            <div class='mt-10 flow-root'>
-                                <dl class='-my-3 divide-y divide-gray-100 text-sm'>
-                                    <div class='grid grid-cols-1 gap-1 py-3 sm:grid-cols-3 sm:gap-4'>
-                                        <dt class='font-medium '>Category</dt>
-                                        <dd class=' sm:col-span-2'>{product.category}</dd>
+                            <div className='mt-10 flow-root'>
+                                <dl className='-my-3 divide-y divide-gray-100 text-sm'>
+                                    <div className='grid grid-cols-1 gap-1 py-3 sm:grid-cols-3 sm:gap-4'>
+                                        <dt className='font-medium '>Category</dt>
+                                        <dd className=' sm:col-span-2'>{product.category}</dd>
                                     </div>
 
-                                    <div class='grid grid-cols-1 gap-1 py-3 sm:grid-cols-3 sm:gap-4'>
-                                        <dt class='font-medium '>Harga</dt>
-                                        <dd class=' sm:col-span-2'>{formatCurrency(product.harga)}</dd>
+                                    <div className='grid grid-cols-1 gap-1 py-3 sm:grid-cols-3 sm:gap-4'>
+                                        <dt className='font-medium '>Harga</dt>
+                                        <dd className=' sm:col-span-2'>{formatCurrency(product.harga)}</dd>
                                     </div>
 
-                                    <div class='grid grid-cols-1 gap-1 py-3 sm:grid-cols-3 sm:gap-4'>
-                                        <dt class='font-medium '>In Stock</dt>
-                                        <dd class=' sm:col-span-2'>{product.stock}</dd>
+                                    <div className='grid grid-cols-1 gap-1 py-3 sm:grid-cols-3 sm:gap-4'>
+                                        <dt className='font-medium '>In Stock</dt>
+                                        <dd className=' sm:col-span-2'>{product.stock}</dd>
                                     </div>
 
-                                    <div class='grid grid-cols-1 gap-1 py-3 sm:grid-cols-3 sm:gap-4'>
-                                        <dt class='font-medium '>Is Visible?</dt>
-                                        <dd class=' sm:col-span-2'>
+                                    <div className='grid grid-cols-1 gap-1 py-3 sm:grid-cols-3 sm:gap-4'>
+                                        <dt className='font-medium '>Is Visible?</dt>
+                                        <dd className=' sm:col-span-2'>
                                             <p className={product.isActive ? 'text-[#25a34a]' : 'text-destructive'}>{product.isActive ? 'Yes' : 'No'}</p>
                                         </dd>
                                     </div>
                                 </dl>
                             </div>
 
-                            <div class='mt-8 lg:col-span-2 lg:col-start-1 lg:pb-8 lg:pr-8 lg:pt-6'>
+                            <div className='mt-8 lg:col-span-2 lg:col-start-1 lg:pb-8 lg:pr-8 lg:pt-6'>
                                 <h3 className='sr-only'>Description</h3>
-                                <div class='space-y-6'>
-                                    <p class='text-base ' dangerouslySetInnerHTML={{ __html: product.description }} className='ProseMirror'></p>
+                                <div className='space-y-6'>
+                                    <p className='ProseMirror text-base' dangerouslySetInnerHTML={{ __html: product.description }}></p>
                                 </div>
                             </div>
                         </div>

@@ -67,6 +67,7 @@ Route::middleware('auth')->group(function () {
         Route::delete('/orders/{order}/destroy', [OrderController::class, 'destroy'])->name('orders.destroy');
         Route::patch('/payments/{payment}/{status}', [PaymentController::class, 'update'])->name('payments.update');
         Route::get('/payments', [PaymentController::class, 'index'])->name('payments.index');
+        Route::patch('/products/{product}/update-image', [ProductController::class, 'updateProductImage'])->name('update-product-image');
         // Route::resource('orders', OrderController::class);
     });
 });

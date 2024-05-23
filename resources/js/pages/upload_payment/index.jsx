@@ -2,6 +2,7 @@ import AuthLayout from '@/Layouts/auth-layout';
 import { Button } from '@/components/button';
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from '@/components/card';
 import Container from '@/components/container';
+import InputError from '@/components/input-error';
 import { Table, TableBody, TableCell, TableHead, TableHeader, TableRow } from '@/components/table';
 import { getTimeStamp } from '@/lib/get-date';
 import { toast } from '@/lib/use-toast';
@@ -118,24 +119,27 @@ export default function Index({ order, order_details }) {
                     </CardHeader>
                     <CardContent>
                         <form onSubmit={submit}>
-                            <FilePond
-                                allowImagePreview
-                                allowFileTypeValidation
-                                acceptedFileTypes={['image/png', 'image/jpeg']}
-                                name='image'
-                                server={{
-                                    url: '',
-                                    process: {
-                                        url: route('upload-picture', 'proof_of_payment'),
-                                        method: 'POST',
-                                        onload: handleFilepondLoad,
-                                    },
-                                    revert: handleFilepondRevert,
-                                    headers: {
-                                        'X-CSRF-TOKEN': csrf_token,
-                                    },
-                                }}
-                            />
+                            <div>
+                                <FilePond
+                                    allowImagePreview
+                                    allowFileTypeValidation
+                                    acceptedFileTypes={['image/png', 'image/jpeg']}
+                                    name='image'
+                                    server={{
+                                        url: '',
+                                        process: {
+                                            url: route('upload-picture', 'proof_of_payment'),
+                                            method: 'POST',
+                                            onload: handleFilepondLoad,
+                                        },
+                                        revert: handleFilepondRevert,
+                                        headers: {
+                                            'X-CSRF-TOKEN': csrf_token,
+                                        },
+                                    }}
+                                />
+                                <InputError message={errors.image} className='mt-2' />
+                            </div>
 
                             <Button disabled={processing}>Save</Button>
                         </form>

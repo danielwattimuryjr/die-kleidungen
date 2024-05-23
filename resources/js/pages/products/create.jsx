@@ -9,18 +9,43 @@ import { Select, SelectContent, SelectGroup, SelectItem, SelectTrigger, SelectVa
 import Tiptap from '@/components/tiptap';
 import { getTimeStamp } from '@/lib/get-date';
 import { toast } from '@/lib/use-toast';
-import { useForm } from '@inertiajs/react';
+import { router, useForm, usePage } from '@inertiajs/react';
+import FilePondPluginFileValidateType from 'filepond-plugin-file-validate-type';
+import FilePondPluginImagePreview from 'filepond-plugin-image-preview';
+import 'filepond-plugin-image-preview/dist/filepond-plugin-image-preview.css';
+import 'filepond/dist/filepond.min.css';
+import { FilePond, registerPlugin } from 'react-filepond';
+
+registerPlugin(FilePondPluginFileValidateType, FilePondPluginImagePreview);
 
 export default function Create(props) {
+    const { csrf_token } = usePage().props;
     const { categories } = props;
-
     const { data, setData, post, processing, errors, reset } = useForm({
         nama: '',
         stock: 1,
         harga: 0,
         category: '',
         description: '',
+        image: '',
     });
+
+    const handleFilepondLoad = (response) => {
+        setData('image', response);
+
+        return response;
+    };
+
+    const handleFilepondRevert = (uniqueFileId, load, error) => {
+        router.delete(
+            route('revert-picture', {
+                folder_name: 'product_image',
+                file_name: uniqueFileId,
+            }),
+        );
+
+        load();
+    };
 
     const submit = (e) => {
         e.preventDefault();
@@ -52,7 +77,7 @@ export default function Create(props) {
                     <CardContent>
                         <div>
                             <Label htmlFor='nama' className={'capitalize'}>
-                                nama produk
+                                Product Name
                             </Label>
 
                             <Input id='nama' type='text' name='nama' value={data.nama} className='mt-1 block w-full' autoComplete='username' autoFocus onChange={(e) => setData('nama', e.target.value)} />
@@ -61,8 +86,33 @@ export default function Create(props) {
                         </div>
 
                         <div className='mt-4'>
+                            <Label className='capitalize'>Product Picture</Label>
+
+                            <FilePond
+                                allowImagePreview
+                                allowFileTypeValidation
+                                acceptedFileTypes={['image/png', 'image/jpeg']}
+                                name='image'
+                                server={{
+                                    url: '',
+                                    process: {
+                                        url: route('upload-picture', 'product_image'),
+                                        method: 'POST',
+                                        onload: handleFilepondLoad,
+                                    },
+                                    revert: handleFilepondRevert,
+                                    headers: {
+                                        'X-CSRF-TOKEN': csrf_token,
+                                    },
+                                }}
+                            />
+
+                            <InputError message={errors.image} className='mt-2' />
+                        </div>
+
+                        <div className='mt-4'>
                             <Label htmlFor='kategori' className={'capitalize'}>
-                                Kategori Produk
+                                Product Category
                             </Label>
 
                             <Select id='kategori' onValueChange={(value) => setData('category', value)}>
@@ -93,7 +143,7 @@ export default function Create(props) {
 
                         <div className='mt-4'>
                             <Label htmlFor='nama' className={'capitalize'}>
-                                harga Produk
+                                Product Price
                             </Label>
 
                             <Input id='harga' type='number' name='harga' value={data.harga} className='mt-1 block w-full' autoComplete='username' autoFocus onChange={(e) => setData('harga', e.target.value)} min={0} />
@@ -103,7 +153,7 @@ export default function Create(props) {
 
                         <div className='mt-4'>
                             <Label htmlFor='deskripsi' className={'capitalize'}>
-                                deskripsi produk
+                                Product Desc.
                             </Label>
 
                             <Tiptap

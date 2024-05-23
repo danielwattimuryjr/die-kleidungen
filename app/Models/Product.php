@@ -13,7 +13,7 @@ class Product extends Model
         'nama',
         'description',
         'harga',
-        'gambar',
+        'image',
         'category',
         'stock',
         'isActive'

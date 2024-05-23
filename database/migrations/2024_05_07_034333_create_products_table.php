@@ -12,7 +12,7 @@ return new class extends Migration {
             $table->string('nama', 50);
             $table->string('harga');
             $table->longText('description');
-            $table->string('gambar')->nullable()->default(null);
+            $table->string('image')->nullable()->default(null);
             $table->string('category', 50);
             $table->string('stock');
             $table->boolean('isActive')->default(true);

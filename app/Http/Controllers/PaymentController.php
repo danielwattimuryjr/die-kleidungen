@@ -7,6 +7,7 @@ use App\Enum\PaymentStatus;
 use App\Http\Resources\PaymentResource;
 use App\Models\Order;
 use App\Models\Payment;
+use App\Models\TemporaryImage;
 use DB;
 use Illuminate\Http\Request;
 use Illuminate\Validation\Rule;
@@ -54,10 +55,19 @@ class PaymentController extends Controller
     {
         DB::beginTransaction();
 
+        $request->validate([
+            'image' => 'required'
+        ]);
+
         try {
             $order->payment()->create([
                 'image_name' => $request->image
             ]);
+
+            $temp_image = TemporaryImage::where('file', $order->payment->image_name)->first();
+
+            if ($temp_image)
+                $temp_image->delete();
 
             Log::info("New Proof of Payment for Order#$order->id Created. ");
 

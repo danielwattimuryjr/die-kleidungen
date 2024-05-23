@@ -1,5 +1,4 @@
 import AuthLayout from '@/Layouts/auth-layout';
-import { Avatar, AvatarImage } from '@/components/avatar';
 import { Badge } from '@/components/badge';
 import { Button } from '@/components/button';
 import { Card, CardContent, CardDescription, CardFooter, CardHeader, CardTitle } from '@/components/card';
@@ -104,11 +103,6 @@ export default function Index(props) {
                                             <TableCell className='w-0 py-7 text-center'>{meta.from + i}</TableCell>
                                             <TableCell>
                                                 <div className='flex items-center font-normal'>
-                                                    <div className='mr-3 shrink-0'>
-                                                        <Avatar>
-                                                            <AvatarImage src={'https://placehold.co/100'} />
-                                                        </Avatar>
-                                                    </div>
                                                     <div>
                                                         <div>
                                                             <p>{product.nama}</p>

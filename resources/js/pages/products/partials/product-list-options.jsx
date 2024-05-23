@@ -5,6 +5,7 @@ import { Icon } from '@/components/icon';
 import { getTimeStamp } from '@/lib/get-date';
 import { toast } from '@/lib/use-toast';
 import { Link, useForm } from '@inertiajs/react';
+import UploadProductImageDialog from './upload-product-image-dialog';
 
 export function ProductListOptions({ product, details = true }) {
     const { delete: destroy, patch } = useForm();
@@ -89,6 +90,8 @@ export function ProductListOptions({ product, details = true }) {
                     <Icon icon={'IconTrash'} />
                     Delete Permanently
                 </DropdownDialog>
+
+                <UploadProductImageDialog product={product} />
             </DropdownMenuContent>
         </DropdownMenu>
     );

@@ -13,12 +13,12 @@ class UserResource extends JsonResource
             'id' => $this->id,
             'username' => $this->username,
             'name' => $this->nama_lengkap,
-            'acronym' => acronym($this->nama_lengkap),
+            // 'acronym' => acronym($this->nama_lengkap),
             'email' => $this->email,
-            'email_verified_at' => $this->email_verified_at?->diffForHumans() ?? 'Email not verified',
+            // 'email_verified_at' => $this->email_verified_at?->diffForHumans() ?? 'Email not verified',
             'created_at' => $this->created_at->diffForHumans(),
             'updated_at' => $this->updated_at->diffForHumans(),
-            'posts_count' => $this->posts_count,
+            'order_count' => $this->order()->count()
         ];
     }
 }

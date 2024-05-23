@@ -13,7 +13,7 @@ class ProductResource extends JsonResource
         return [
             'id' => $this->id,
             'nama' => $this->nama,
-            'image_url' => $this->image ?? "/storage/images/product_image/$this->image",
+            'image_url' => $this->image ? "/storage/images/product_image/$this->image" : null,
             'image_name' => $this->image,
             'harga' => $this->harga,
             'category' => ProductCategory::from($this->category)->labels(),

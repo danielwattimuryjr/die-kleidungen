@@ -42,8 +42,8 @@ export default function Index(props) {
                 {products.length > 0 ? (
                     <ul className='mt-16 grid gap-4 sm:grid-cols-2 lg:grid-cols-4'>
                         <>
-                            {products.map((product) => (
-                                <ProductCard product={product} />
+                            {products.map((product, i) => (
+                                <ProductCard product={product} key={i} />
                             ))}
                         </>
                     </ul>

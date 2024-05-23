@@ -10,6 +10,7 @@ use App\Http\Controllers\OrderController;
 use App\Http\Controllers\ProductController;
 use App\Http\Controllers\PaymentController;
 use App\Http\Controllers\ProfileController;
+use App\Http\Controllers\ReportController;
 use App\Http\Controllers\UploadPictureController;
 use Illuminate\Support\Facades\Route;
 
@@ -68,7 +69,7 @@ Route::middleware('auth')->group(function () {
         Route::patch('/payments/{payment}/{status}', [PaymentController::class, 'update'])->name('payments.update');
         Route::get('/payments', [PaymentController::class, 'index'])->name('payments.index');
         Route::patch('/products/{product}/update-image', [ProductController::class, 'updateProductImage'])->name('update-product-image');
-        // Route::resource('orders', OrderController::class);
+        Route::get('/generate-report/{report_type}/{file_type}', [ReportController::class, 'index'])->name('generate-report');
     });
 });
 

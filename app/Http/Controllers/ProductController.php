@@ -173,11 +173,8 @@ class ProductController extends Controller
 
         DB::beginTransaction();
         try {
-            $product->update(['isActive' => $new_status]);
-
-            $product->update([
-                'isActive' => $new_status
-            ]);
+            $product->isActive = $new_status;
+            $product->saveQuietly();
 
             DB::commit();
 

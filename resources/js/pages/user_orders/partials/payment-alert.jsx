@@ -13,7 +13,7 @@ const PaymentAlert = ({ order }) => {
                 </Alert>
             ) : order.original_status === 'delivered' ? (
                 <Alert>
-                    <Icon icon={'IconCheckCircle'} />
+                    <Icon icon={'IconCircleCheck'} />
                     <AlertTitle>Order Delivered</AlertTitle>
                     <AlertDescription>This order has been successfully delivered.</AlertDescription>
                 </Alert>

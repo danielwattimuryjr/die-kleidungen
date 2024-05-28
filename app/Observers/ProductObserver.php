@@ -4,6 +4,7 @@ namespace App\Observers;
 
 use App\Models\Product;
 use Illuminate\Support\Facades\DB;
+use Illuminate\Support\Facades\Storage;
 
 class ProductObserver
 {
@@ -36,7 +37,9 @@ class ProductObserver
      */
     public function deleted(Product $product): void
     {
-        //
+        $file_name = $product->image;
+
+        Storage::disk('public')->delete("images/product_image/$file_name");
     }
 
     /**

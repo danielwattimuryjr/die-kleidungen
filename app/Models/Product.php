@@ -24,6 +24,7 @@ class Product extends Model
         return [
             'harga' => 'integer',
             'stock' => 'integer',
+            'status' => 'boolean'
         ];
     }
 

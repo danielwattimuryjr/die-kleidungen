@@ -3,6 +3,7 @@ import { Link } from '@inertiajs/react';
 
 function ProductCard(props) {
     const { product } = props;
+    console.log(product);
 
     return (
         <li>

@@ -15,6 +15,8 @@ export default function Index(props) {
     const { data: orders, meta, links } = props.orders;
     const [params, setParams] = useState(props.state);
 
+    console.log(orders);
+
     useFilter({
         route: route('open-user-orders'),
         values: params,

@@ -18,7 +18,7 @@ class UserResource extends JsonResource
             // 'email_verified_at' => $this->email_verified_at?->diffForHumans() ?? 'Email not verified',
             'created_at' => $this->created_at->diffForHumans(),
             'updated_at' => $this->updated_at->diffForHumans(),
-            'order_count' => $this->order()->count()
+            // 'order_count' => $this->order()->count()
         ];
     }
 }

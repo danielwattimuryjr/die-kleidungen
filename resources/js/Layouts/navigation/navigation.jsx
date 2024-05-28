@@ -35,12 +35,14 @@ export default function NavigationMenu({ openCommandPalette, setOpenCommandPalet
                                     </kbd>
                                 </button>
                                 <ThemeToggle />
-                                <Button variant='outline' className='h-[2.7rem] px-4' asChild>
-                                    <Link href={route('show-user-cart')}>
-                                        <Icon icon={'IconShoppingCart'} className={'me-1'} />
-                                        <Badge>{auth.user?.total_cart_item || '0'}</Badge>
-                                    </Link>
-                                </Button>
+                                {auth.user && (
+                                    <Button variant='outline' className='h-[2.7rem] px-4' asChild>
+                                        <Link href={route('show-user-cart')}>
+                                            <Icon icon={'IconShoppingCart'} className={'me-1'} />
+                                            <Badge>{auth.user?.total_cart_item || '0'}</Badge>
+                                        </Link>
+                                    </Button>
+                                )}
                                 {auth.user ? (
                                     <DropdownMenu>
                                         <DropdownMenuTrigger className={'select-none outline-none'}>
